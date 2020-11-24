@@ -1,9 +1,5 @@
 package com.github.convertiverse;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,14 +7,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
-	// Nur zu testen
-	List<TestClass> categoriesTest = new ArrayList<TestClass>();
 
 	//Adapter
 	private RecyclerView recyclerView;
@@ -37,26 +30,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 		sortSpinner.setAdapter(sortAdapter);
 		sortSpinner.setOnItemSelectedListener(this);
 
-		//nur zum testen
-		categoriesTest.add(new TestClass(0, "währung", "empty"));
-		categoriesTest.add(new TestClass(1, "Gewicht", "empty"));
-		categoriesTest.add(new TestClass(2, "Entfernung", "empty"));
-		categoriesTest.add(new TestClass(3, "Geschwindigkeit", "empty"));
-		categoriesTest.add(new TestClass(4, "währung", "empty"));
-		categoriesTest.add(new TestClass(5, "Gewicht", "empty"));
-		categoriesTest.add(new TestClass(6, "Entfernung", "empty"));
-		categoriesTest.add(new TestClass(7, "Geschwindigkeit", "empty"));
-		categoriesTest.add(new TestClass(8, "währung", "empty"));
-		categoriesTest.add(new TestClass(9, "Gewicht", "empty"));
-		categoriesTest.add(new TestClass(10, "Entfernung", "empty"));
-		categoriesTest.add(new TestClass(11, "Geschwindigkeit", "empty"));
-
 		//Adapter
 		recyclerView = findViewById(R.id.recyclerView_categories);
 		recyclerView.setHasFixedSize(true);
 		layoutManager = new LinearLayoutManager(this);
 		recyclerView.setLayoutManager(layoutManager);
-		categoriesAdapter = new CategoriesRecyclerViewAdapter(categoriesTest, MainActivity.this);
+		categoriesAdapter = new CategoriesRecyclerViewAdapter(ConvertiverseApp.getInstance().getCategories(), MainActivity.this);
 		recyclerView.setAdapter(categoriesAdapter);
 	}
 

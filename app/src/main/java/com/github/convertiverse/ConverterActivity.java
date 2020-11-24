@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.convertiverse.category.ConverterCategory;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConverterActivity extends AppCompatActivity {
 
     // Nur zu testen
-    List<TestClass> categoriesTest = new ArrayList<TestClass>();
     List<TestClass> unitTest = new ArrayList<TestClass>();
     // test ende
 
@@ -27,7 +27,7 @@ public class ConverterActivity extends AppCompatActivity {
     TextView textView_converterHeading;
     ImageView imageView_converterIcon;
 
-    int categoryId;
+    String categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,35 +60,21 @@ public class ConverterActivity extends AppCompatActivity {
         textView_converterHeading = findViewById(R.id.textView_converterHeading);
         imageView_converterIcon = findViewById(R.id.imageView_converterIcon);
 
-        //nur zum testen
-        categoriesTest.add(new TestClass(0, "währung", "empty"));
-        categoriesTest.add(new TestClass(1, "Gewicht", "empty"));
-        categoriesTest.add(new TestClass(2, "Entfernung", "empty"));
-        categoriesTest.add(new TestClass(3, "Geschwindigkeit", "empty"));
-        categoriesTest.add(new TestClass(4, "währung", "empty"));
-        categoriesTest.add(new TestClass(5, "Gewicht", "empty"));
-        categoriesTest.add(new TestClass(6, "Entfernung", "empty"));
-        categoriesTest.add(new TestClass(7, "Geschwindigkeit", "empty"));
-        categoriesTest.add(new TestClass(8, "währung", "empty"));
-        categoriesTest.add(new TestClass(9, "Gewicht", "empty"));
-        categoriesTest.add(new TestClass(10, "Entfernung", "empty"));
-        categoriesTest.add(new TestClass(11, "Geschwindigkeit", "empty"));
-        // test ende
-
 
         Intent intent = getIntent();
         // wird später wahrscheinlich key (String)
-        categoryId = intent.getIntExtra("id", -1);
-        TestClass category = null;
+        categoryId = intent.getStringExtra("id");
+	    ConverterCategory category = null;
 
-        if (categoryId >= 0) {
+        if (categoryId != null) {
             // Loop through List of categories to find a match
-            for (TestClass t: categoriesTest) {
-                if (t.getCategoryId() == categoryId) {
-                    category = t;
-                }
-            }
-            textView_converterHeading.setText(category.getCategoryName());
+	        for(ConverterCategory otherCategory : ConvertiverseApp.getInstance().getCategories()) {
+	        	if(otherCategory.getKey().equalsIgnoreCase(categoryId)) {
+	        		category = otherCategory;
+	        		break;
+		        }
+	        }
+            textView_converterHeading.setText(category.getDisplayName());
             //imageView_converterIcon.setImageIcon(...);
             //set recyclerview here; I think ?!
         }

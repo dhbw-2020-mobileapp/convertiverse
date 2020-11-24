@@ -12,14 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.convertiverse.category.ConverterCategory;
 import java.util.List;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.CategoriesViewHolder> {
 
-    List<TestClass> categoriesList;
+    List<ConverterCategory> categoriesList;
     Context context;
 
-    public CategoriesRecyclerViewAdapter(List<TestClass> categories, Context context) {
+    public CategoriesRecyclerViewAdapter(List<ConverterCategory> categories, Context context) {
         this.categoriesList = categories;
         this.context = context;
     }
@@ -35,7 +36,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public void onBindViewHolder(@NonNull CategoriesViewHolder holder, final int position) {
-        holder.categoryName.setText(categoriesList.get(position).getCategoryName());
+        holder.categoryName.setText(categoriesList.get(position).getDisplayName());
         //holder.categorieIcon.setImageIcon();
 
         // Open Converter Activity
@@ -43,7 +44,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ConverterActivity.class);
-                intent.putExtra("id", categoriesList.get(position).getCategoryId());
+                intent.putExtra("id", categoriesList.get(position).getKey());
                 context.startActivity(intent);
             }
         });
