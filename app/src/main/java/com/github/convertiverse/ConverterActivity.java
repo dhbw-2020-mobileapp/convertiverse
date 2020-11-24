@@ -16,6 +16,7 @@ public class ConverterActivity extends AppCompatActivity {
 
     // Nur zu testen
     List<TestClass> categoriesTest = new ArrayList<TestClass>();
+    List<TestClass> unitTest = new ArrayList<TestClass>();
     // test ende
 
     //Adapter
@@ -33,12 +34,27 @@ public class ConverterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_converter);
 
+        //nur zum testen
+        unitTest.add(new TestClass(0, "währung", "empty"));
+        unitTest.add(new TestClass(1, "Gewicht", "empty"));
+        unitTest.add(new TestClass(2, "Entfernung", "empty"));
+        unitTest.add(new TestClass(3, "Geschwindigkeit", "empty"));
+        unitTest.add(new TestClass(4, "währung", "empty"));
+        unitTest.add(new TestClass(5, "Gewicht", "empty"));
+        unitTest.add(new TestClass(3, "Geschwindigkeit", "empty"));
+        unitTest.add(new TestClass(4, "währung", "empty"));
+        unitTest.add(new TestClass(5, "Gewicht", "empty"));
+        unitTest.add(new TestClass(3, "Geschwindigkeit", "empty"));
+        unitTest.add(new TestClass(4, "währung", "empty"));
+        unitTest.add(new TestClass(5, "Gewicht", "empty"));
+        // test ende
+
         //Adapter
         recyclerView = findViewById(R.id.recyclerView_converter);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        converterAdapter = new ConverterRecyclerViewAdapter(categoriesTest, ConverterActivity.this);
+        converterAdapter = new ConverterRecyclerViewAdapter(unitTest, ConverterActivity.this);
         recyclerView.setAdapter(converterAdapter);
 
         textView_converterHeading = findViewById(R.id.textView_converterHeading);

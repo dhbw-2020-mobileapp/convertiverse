@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_add_unit"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="70dp"
     android:layout_marginLeft="22dp"
     android:layout_marginRight="22dp">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView_addUnitText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Währung hinzufügen"
@@ -20,12 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView_addUnitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
         android:textColor="@color/colorDarkText"
-        android:textSize="60sp"
+        android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
