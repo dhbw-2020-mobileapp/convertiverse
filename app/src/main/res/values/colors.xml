@@ -4,5 +4,12 @@
     <color name="colorPrimaryDark">#264653</color>
     <color name="colorAccent">#264653</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="widgetInputBackground">#EFEFEF</color>
+    <color name="widgetInputBtn">#FFFFFF</color>
+    <color name="widgetInputText">#727272</color>
     <color name="colorDarkText">#3B3838</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 </resources>
