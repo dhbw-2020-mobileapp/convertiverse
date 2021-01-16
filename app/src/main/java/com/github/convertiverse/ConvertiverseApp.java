@@ -5,6 +5,10 @@ import com.github.convertiverse.category.ConverterCategory;
 import com.github.convertiverse.converter.BiConverter;
 import com.github.convertiverse.converter.ConverterRegistry;
 import com.github.convertiverse.converter.EuroToDollarConverter;
+import com.github.convertiverse.database.FirestoreUserDao;
+import com.github.convertiverse.database.UserDao;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.installations.FirebaseInstallations;
 import java.util.List;
 
 /**
@@ -22,6 +26,9 @@ public class ConvertiverseApp {
 	private final ConverterRegistry converterRegistry;
 	private final CategoryRegistry categoryRegistry = new CategoryRegistry();
 
+	private String uniqueUserId;
+	private final UserDao userDao;
+
 	public ConvertiverseApp() {
 		this.converterRegistry = new ConverterRegistry();
 
@@ -33,6 +40,12 @@ public class ConvertiverseApp {
 		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty"));
 		categoryRegistry.register(new ConverterCategory("distance", "Entfernung", "empty"));
 		categoryRegistry.register(new ConverterCategory("speed", "Geschwindigkeit", "empty"));
+
+		// connect to db
+		FirebaseFirestore db = FirebaseFirestore.getInstance();
+		this.userDao = new FirestoreUserDao(db);
+
+		FirebaseInstallations.getInstance().getId().addOnSuccessListener(s -> uniqueUserId = s);
 	}
 
 	public BiConverter<?, ?> getConverter(String key) {
@@ -47,4 +60,11 @@ public class ConvertiverseApp {
 		return this.categoryRegistry.getAll();
 	}
 
+	public String getUniqueUserId() {
+		return uniqueUserId;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
 }
