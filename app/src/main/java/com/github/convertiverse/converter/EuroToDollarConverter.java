@@ -6,19 +6,22 @@ import com.github.convertiverse.unit.EuroUnit;
 /**
  * @author Tobias Büser
  */
-public class EuroToDollarConverter extends BiConverter<EuroUnit, DollarUnit> {
+public class EuroToDollarConverter extends Converter<EuroUnit, DollarUnit> {
 
 	public EuroToDollarConverter() {
-		super("euro_to_dollar");
+		super("euro_to_dollar", EuroUnit.class, DollarUnit.class);
 	}
 
 	@Override
-	public DollarUnit forwards(EuroUnit inputUnit) {
-		return new DollarUnit(inputUnit.getValue() * 1.2);
+	public double forwards(double fromValue) {
+		System.out.println("EURO: forwards");
+		return fromValue * 1.22;
 	}
 
 	@Override
-	public EuroUnit backwards(DollarUnit inputUnit) {
-		return new EuroUnit(inputUnit.getValue() / 1.2);
+	public double backwards(double toValue) {
+		System.out.println("EURO: backwards");
+		return toValue / 1.22;
 	}
+
 }
