@@ -2,6 +2,7 @@ package com.github.convertiverse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.convertiverse.category.ConverterCategory;
 import java.util.List;
 
+
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.CategoriesViewHolder> {
 
-    List<ConverterCategory> categoriesList;
-    Context context;
+    private List<ConverterCategory> categoriesList;
+    private Context context;
+
+    // NUR VORLAEUFIG; WIRD GELOESCHT
+    String[] colorsTemp = {"#264653", "#e76f51", "#e9c46a", "#275c62", "#8ab17d", "#287271", "#298880", "#2a9d8f", "#5aa786", "#e9c46a", "#efb366", "#f2ab64", "#f4a261", "#ee8959", "#eb7c55"};
 
     public CategoriesRecyclerViewAdapter(List<ConverterCategory> categories, Context context) {
         this.categoriesList = categories;
         this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -36,15 +40,17 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public void onBindViewHolder(@NonNull CategoriesViewHolder holder, final int position) {
-        holder.categoryName.setText(categoriesList.get(position).getDisplayName());
-        //holder.categorieIcon.setImageIcon();
+        int imgKey = context.getResources().getIdentifier("com.github.convertiverse:drawable/" + categoriesList.get(position).getKey(), null, null);
 
-        // Open Converter Activity
+        holder.categoryName.setText(categoriesList.get(position).getDisplayName());
+        holder.categoryLayout.setBackgroundColor(Color.parseColor(colorsTemp[position])); //holder.categoryLayout.setBackgroundColor(Color.parseColor(categoriesList.get(position).getColor()));
+        holder.categoryIcon.setImageResource(imgKey);
+
         holder.categoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ConverterActivity.class);
-                intent.putExtra("id", categoriesList.get(position).getKey());
+                intent.putExtra("key", categoriesList.get(position).getKey());
                 context.startActivity(intent);
             }
         });
@@ -66,12 +72,5 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
             categoryIcon = itemView.findViewById(R.id.imageView_categoryIcon);
             categoryLayout = itemView.findViewById(R.id.layout_category);
         }
-    }
-
-    public class HeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView categorieName;
-        ImageView categorieIcon;
-
-        public HeaderViewHolder(@NonNull View itemView) { super(itemView);}
     }
 }
