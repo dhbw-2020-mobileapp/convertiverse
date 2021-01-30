@@ -55,7 +55,7 @@ public class ConvertiverseApp {
 		FirebaseInstallations.getInstance().getId().addOnSuccessListener(s -> uniqueUserId = s);*/
 	}
 
-	public <S extends Unit, T extends Unit> double convert(String fromUnitKey, double value, String toUnitKey) {
+	public double convert(String fromUnitKey, double value, String toUnitKey) {
 		Converter converter = converterRegistry.get(fromUnitKey, toUnitKey);
 		if (converter == null) throw new IllegalStateException("Such a conversion is currently not possible.");
 		return converter.forwards(value);
