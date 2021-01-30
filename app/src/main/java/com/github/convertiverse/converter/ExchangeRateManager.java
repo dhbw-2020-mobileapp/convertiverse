@@ -1,7 +1,6 @@
 package com.github.convertiverse.converter;
 
 import android.util.Log;
-import com.github.convertiverse.ConvertiverseApp;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +78,6 @@ public class ExchangeRateManager {
 				}
 
 				Log.i("ExchangeRateManager", "found " + conversionRates.size() + " conversion rates.");
-				System.out.println(ConvertiverseApp.getInstance().convert("euro", 36, "japanese_yen"));
 			}
 		});
 	}
