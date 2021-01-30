@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#4CAF50"
+        android:background="#264653"
         android:orientation="horizontal">
 
         <TextView
@@ -26,7 +26,10 @@
             android:text="Währung &#9660;"
             android:textColor="@color/colorWhite"
             android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground" />
 
         <ImageView
             android:id="@+id/imageView_category"
@@ -55,7 +58,10 @@
             android:paddingBottom="0sp"
             android:text="USD &#9660;"
             android:textColor="@color/widgetInputText"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground" />
 
         <TextView
             android:id="@+id/textView_value1"
@@ -66,10 +72,13 @@
             android:paddingTop="7sp"
             android:paddingEnd="15sp"
             android:paddingBottom="0sp"
-            android:text="43,64"
+            android:text="0"
             android:textAlignment="textEnd"
             android:textColor="@color/widgetInputText"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground" />
     </LinearLayout>
 
     <LinearLayout
@@ -87,9 +96,12 @@
             android:paddingTop="8sp"
             android:paddingEnd="0sp"
             android:paddingBottom="0sp"
-            android:text="CNY &#9660;"
+            android:text="EUR &#9660;"
             android:textColor="@color/widgetInputText"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground" />
 
         <TextView
             android:id="@+id/textView_value2"
@@ -100,253 +112,19 @@
             android:paddingTop="7sp"
             android:paddingEnd="15sp"
             android:paddingBottom="0sp"
-            android:text="15,23"
+            android:text="0"
             android:textAlignment="textEnd"
             android:textColor="@color/widgetInputText"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground" />
     </LinearLayout>
 
     <ViewFlipper
         android:id="@+id/viewFlipper_input"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <GridLayout
-            android:id="@+id/categorySelection"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/widgetInputBackground"
-            android:columnCount="2"
-            android:padding="1sp"
-            android:rowCount="3">
-
-            <Button
-                android:id="@+id/category1"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="Entfernung"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/category2"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="Gewicht"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/category3"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="Währung"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/category4"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="Geschwind."
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/category_backward"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="&#5130;"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-
-            <Button
-                android:id="@+id/category_forward"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="&#5125;"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-
-        </GridLayout>
-
-
-        <GridLayout
-            android:id="@+id/unitSelection"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/widgetInputBackground"
-            android:columnCount="3"
-            android:padding="1sp"
-            android:rowCount="3">
-
-            <Button
-                android:id="@+id/unit1"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="nm"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unit2"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="mm"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unit3"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="cm"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unit4"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="dm"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unit5"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="m"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unit6"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="km"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unit_backward"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="&#5130;"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/unit_empty"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text=" "
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-
-            <Button
-                android:id="@+id/unit_forward"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="1sp"
-                android:background="@color/widgetInputBtn"
-                android:text="&#5125;"
-                android:textAllCaps="false"
-                android:textColor="@color/widgetInputText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-
-        </GridLayout>
 
         <GridLayout
             android:id="@+id/valueSelection"
@@ -515,6 +293,244 @@
 
 
         </GridLayout>
+
+        <GridLayout
+            android:id="@+id/unitSelection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/widgetInputBackground"
+            android:columnCount="3"
+            android:padding="1sp"
+            android:rowCount="3">
+
+
+            <Button
+                android:id="@+id/unit1"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/unit2"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/unit3"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/unit4"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/unit5"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/unit6"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/unit_backward"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text="&#5130;"
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/unit_empty"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/unit_forward"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text="&#5125;"
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </GridLayout>
+
+        <GridLayout
+            android:id="@+id/categorySelection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/widgetInputBackground"
+            android:columnCount="2"
+            android:padding="1sp"
+            android:rowCount="3">
+
+            <Button
+                android:id="@+id/category1"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/category2"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/category3"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/category4"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text=" "
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/category_backward"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text="&#5130;"
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/category_forward"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="1sp"
+                android:background="@color/widgetInputBtn"
+                android:text="&#5125;"
+                android:textAllCaps="false"
+                android:textColor="@color/widgetInputText"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </GridLayout>
+
 
     </ViewFlipper>
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.github.convertiverse;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,16 +8,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.convertiverse.category.ConverterCategory;
+import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -43,14 +42,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 		sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sortSpinner.setAdapter(sortAdapter);
 		sortSpinner.setOnItemSelectedListener(this);
-		//To-Do's: -get mode (chosen sort-Option); -sort categoriesList accordingly
+		sortCategories();
 
 		// Category-Search
 		editText = findViewById(R.id.editText_search);
 		editText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// EVENTUELL VERBESSERN!!!!
 				categoriesList = ConvertiverseApp.getInstance().getCategories();
 				String searchText = s.toString();
 
@@ -69,9 +67,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 					categoriesList.removeAll(Collections.singleton(null));
 				}
 
-				//Adapter
-				categoriesAdapter = new CategoriesRecyclerViewAdapter(categoriesList, MainActivity.this); // HIER wird später die Liste unsortiert oder gefiltert // Lists.reverse(ConvertiverseApp.getInstance().getCategories())
-				recyclerView.setAdapter(categoriesAdapter);
+				setCategoryAdapter();
 
 			}
 
@@ -87,17 +83,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 		recyclerView.setHasFixedSize(true);
 		layoutManager = new LinearLayoutManager(this);
 		recyclerView.setLayoutManager(layoutManager);
-		categoriesAdapter = new CategoriesRecyclerViewAdapter(categoriesList, MainActivity.this); // HIER wird später die Liste unsortiert oder gefiltert // Lists.reverse(ConvertiverseApp.getInstance().getCategories())
-		recyclerView.setAdapter(categoriesAdapter);
+		setCategoryAdapter();
 	}
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		if (position == 0) {
+			sortCategories();
+		} else {
+			sortCategories();
+			categoriesList = Lists.reverse(categoriesList);
+		}
 		String sortingOption = parent.getItemAtPosition(position).toString();
 		Toast.makeText(parent.getContext(), sortingOption, Toast.LENGTH_SHORT).show();
+		setCategoryAdapter();
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {}
+
+	private void setCategoryAdapter() {
+		categoriesAdapter = new CategoriesRecyclerViewAdapter(categoriesList, MainActivity.this);
+		recyclerView.setAdapter(categoriesAdapter);
+	}
+
+	private void sortCategories() {
+		Collections.sort(categoriesList, new Comparator<ConverterCategory>() {
+			@Override
+			public int compare(final ConverterCategory object1, final ConverterCategory object2) {
+				return object1.getDisplayName().compareTo(object2.getDisplayName());
+			}
+		});
+	}
 
 }

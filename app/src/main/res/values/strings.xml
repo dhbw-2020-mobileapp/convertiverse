@@ -2,7 +2,6 @@
     <string name="app_name">Convertiverse</string>
     <string name="app_searchText">Suche</string>
     <string-array name="categoriesSortingOptions">
-        <item>Beliebteste</item>
         <item>A-Z</item>
         <item>Z-A</item>
     </string-array>

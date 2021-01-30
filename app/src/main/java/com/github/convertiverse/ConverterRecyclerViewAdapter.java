@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.convertiverse.unit.Unit;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,14 +25,14 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
 
     List<? extends Unit> unitList;
     Context context;
-    String categoryName;
+    String categoryKey;
 
-    // Saves all Units so they can be all edited, when changing the amount for a conversion.
     ArrayList<ViewHolderUnit> views = new ArrayList<>();
 
-    public ConverterRecyclerViewAdapter(List<? extends Unit> units, Context context) {
+    public ConverterRecyclerViewAdapter(List<? extends Unit> units, Context context, String categoryKey) {
         this.unitList = units;
         this.context = context;
+        this.categoryKey = categoryKey;
     }
 
     @Override
@@ -69,44 +72,53 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
                     // Open Visibility settings for the Units
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                    String[] unitArray = new String[]{"nm", "mm", "cm", "dm", "m", "km", "..."};
-                    final boolean[] checkedUnitArray = new boolean[]{true, false, true, true, false, true, false};
+                    // Get all units
+                    final List<? extends Unit> unitsList = ConvertiverseApp.getInstance().getUnits(categoryKey);
 
-                    //convert Array to List
-                    final  List<String> unitList = Arrays.asList(unitArray);
+                    // DisplayName and visibility
+                    final boolean[] checkedUnitArray = new boolean[ unitsList.size() ];
+                    String[] unitArray = new String[ unitsList.size() ];
+
+                    for (int i = 0; i < unitsList.size(); i++) {
+                        checkedUnitArray[i] = ConvertiverseApp.getInstance().getUserDataManager().isVisible(unitsList.get(i).getKey());
+                        unitArray[i] = unitsList.get(i).getDisplayName();
+                    }
+
                     //set AlertDialog title
                     builder.setTitle("Einheit auswählen");
+
                     //set icon (optional)
                     //builder.setIcon(R.drawable.currency);
+
                     //set multichoice
                     builder.setMultiChoiceItems(unitArray, checkedUnitArray, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
                             //update current focused item's checked status
                             checkedUnitArray[which] = isChecked;
+
                             //get current focused Item
-                            String currentItem = unitList.get(which);
+                            String currentItemKey = unitsList.get(which).getKey();
+                            String currentItemName = unitsList.get(which).getDisplayNameShort();
+
+                            //set visibility
+                            ConvertiverseApp.getInstance().getUserDataManager().setVisible(currentItemKey, isChecked);
+
                             //notify the current action
-                            Toast.makeText(context,currentItem + " " + isChecked, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,currentItemName + " " + isChecked, Toast.LENGTH_SHORT).show();
 
                         }
                     });
 
                     //set positives/yes button click listener
-                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("anpassen", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // change shown items;
-                            // unitList has the informations/changes
-                        }
-                    });
 
-                    // wird eventuell entfernt
-                    //set neutral/cancel button click listener
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //do something here
+                            // Set Adapter to update shown Units
+                            ((ConverterActivity) context).setConverterAdapter();
+
                         }
                     });
 
@@ -124,34 +136,43 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
             views.add(viewHolderUnit);
 
             viewHolderUnit.unitShortName.setText(unitList.get(position).getDisplayNameShort());
-            viewHolderUnit.unitShortName.setText(unitList.get(position).getDisplayName());
+            viewHolderUnit.unitName.setText(unitList.get(position).getDisplayName());
 
             // Set Enter-Press Listener
             viewHolderUnit.unitAmount.setOnKeyListener(new View.OnKeyListener() {
                 public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                     //If the keyevent is a key-down event on the "enter" button
                     if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        //...
-                        // Perform your action on key press here
-                        // ...
 
-                        Float amount = Float.parseFloat(viewHolderUnit.unitAmount.getText().toString());
+                        double fromValue = 0;
+                        double toValue = 0;
+
+                        try {
+                            fromValue = Double.parseDouble( views.get(position).unitAmount.getText().toString().replace(',', '.') );
+                        } catch (Exception e) {
+                            Toast.makeText(context, "ungültige Eingabe", Toast.LENGTH_SHORT).show();
+                        }
+
 
                         for (int i=0; i<views.size(); i++) {
                             if (i != position) {
                                 ViewHolderUnit v = views.get(i);
 
-                                // Call Converter Method
-                                // ...
-                                //ConvertiverseApp.getInstance().convert(view, 10, v);
+                                // Call Converter Method and round result
+                                toValue = ConvertiverseApp.getInstance().convert(unitList.get(position).getKey(), fromValue, unitList.get(i).getKey());
+                                BigDecimal bd = new BigDecimal(toValue).setScale(5, RoundingMode.HALF_UP);
+                                String output = Double.toString(bd.doubleValue()).replace('.', ',');
 
+                                // Display toValue
                                 EditText inputField = v.unitAmount;
-                                inputField.setText("1234.59"); // <-- zum Test
+                                inputField.setText(output);
 
                             }
                         }
 
-                        Toast.makeText(context, "Enter Pressed: " + amount, Toast.LENGTH_SHORT).show(); // <-- nur zum testen
+                        // set history
+                        ConvertiverseApp.getInstance().getUserDataManager().addHistoryPoint(unitList.get(position).getKey(), fromValue);
+
                         return true;
                     }
                     return false;

@@ -22,9 +22,6 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     private List<ConverterCategory> categoriesList;
     private Context context;
 
-    // NUR VORLAEUFIG; WIRD GELOESCHT
-    String[] colorsTemp = {"#264653", "#e76f51", "#e9c46a", "#275c62", "#8ab17d", "#287271", "#298880", "#2a9d8f", "#5aa786", "#e9c46a", "#efb366", "#f2ab64", "#f4a261", "#ee8959", "#eb7c55"};
-
     public CategoriesRecyclerViewAdapter(List<ConverterCategory> categories, Context context) {
         this.categoriesList = categories;
         this.context = context;
@@ -43,7 +40,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         int imgKey = context.getResources().getIdentifier("com.github.convertiverse:drawable/" + categoriesList.get(position).getKey(), null, null);
 
         holder.categoryName.setText(categoriesList.get(position).getDisplayName());
-        holder.categoryLayout.setBackgroundColor(Color.parseColor(colorsTemp[position])); //holder.categoryLayout.setBackgroundColor(Color.parseColor(categoriesList.get(position).getColor()));
+        holder.categoryLayout.setBackgroundColor(Color.parseColor(categoriesList.get(position).getColorCode()));
         holder.categoryIcon.setImageResource(imgKey);
 
         holder.categoryLayout.setOnClickListener(new View.OnClickListener() {
