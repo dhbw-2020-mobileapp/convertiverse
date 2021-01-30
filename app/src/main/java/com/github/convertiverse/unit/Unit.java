@@ -3,7 +3,7 @@ package com.github.convertiverse.unit;
 /**
  * @author Tobias Büser
  */
-public abstract class Unit {
+public class Unit {
 
 	private final String key;
 	private final String categoryKey;

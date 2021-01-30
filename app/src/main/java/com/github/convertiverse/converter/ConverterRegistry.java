@@ -10,36 +10,36 @@ import java.util.stream.Collectors;
  */
 public class ConverterRegistry {
 
-	private final List<Converter<?, ?>> list = new ArrayList<>();
+	private final List<Converter> list = new ArrayList<>();
 
-	public <S extends Unit, T extends Unit> void register(Converter<S, T> converter) {
+	public <S extends Unit, T extends Unit> void register(Converter converter) {
 		list.add(converter);
 	}
 
-	public List<Converter<?, ?>> getAll(Class<?> fromOrToClass) {
+	public List<Converter> getAll(String fromOrToKey) {
 		return list.stream()
-				.filter(converter -> converter.getFromClass().equals(fromOrToClass)
-						|| converter.getToClass().equals(fromOrToClass))
+				.filter(converter -> converter.getFromKey().equals(fromOrToKey)
+						|| converter.getToKey().equals(fromOrToKey))
 				.collect(Collectors.toList());
 	}
 
-	public <S extends Unit, T extends Unit> Converter<S, T> get(Class<S> from, Class<T> to) {
-		for (Converter<?, ?> converter : this.list) {
-			if (converter.getFromClass().equals(from) && converter.getToClass().equals(to)) {
-				return (Converter<S, T>) converter;
+	public <S extends Unit, T extends Unit> Converter get(String from, String to) {
+		for (Converter converter : this.list) {
+			if (converter.getFromKey().equals(from) && converter.getToKey().equals(to)) {
+				return converter;
 			}
 		}
 
-		List<Converter<?, ?>> fromConverterList = this.getAll(from);
-		List<Converter<?, ?>> toConverterList = this.getAll(to);
+		List<Converter> fromConverterList = this.getAll(from);
+		List<Converter> toConverterList = this.getAll(to);
 
-		for (Converter<?, ?> fromConverter : fromConverterList) {
-			for (Converter<?, ?> toConverter : toConverterList) {
+		for (Converter fromConverter : fromConverterList) {
+			for (Converter toConverter : toConverterList) {
 				if (!fromConverter.isCompatibleWith(toConverter)) continue;
 
-				Class<?> commonUnit = fromConverter.getCommonUnit(toConverter);
+				String commonUnit = fromConverter.getCommonUnit(toConverter);
 
-				return new Converter<S, T>(null, from, to) {
+				return new Converter(null, from, to) {
 					@Override
 					public double forwards(double fromValue) {
 						return toConverter.convert(fromConverter.convert(fromValue, from), commonUnit);

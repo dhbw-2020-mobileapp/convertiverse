@@ -1,43 +1,41 @@
 package com.github.convertiverse.converter;
 
-import com.github.convertiverse.unit.Unit;
-
 /**
  * @author Tobias Büser
  */
-public abstract class Converter<S extends Unit, T extends Unit> {
+public abstract class Converter {
 
 	private final String key;
-	private final Class<S> fromClass;
-	private final Class<T> toClass;
+	private final String fromKey;
+	private final String toKey;
 
-	public Converter(String key, Class<S> from, Class<T> to) {
+	public Converter(String key, String from, String to) {
 		this.key = key;
-		this.fromClass = from;
-		this.toClass = to;
+		this.fromKey = from;
+		this.toKey = to;
 	}
 
 	public abstract double forwards(double fromValue);
 
 	public abstract double backwards(double toValue);
 
-	public double convert(double fromValue, Class<?> fromClass) {
-		if (this.fromClass.equals(fromClass)) return this.forwards(fromValue);
-		else if (this.toClass.equals(fromClass)) return this.backwards(fromValue);
+	public double convert(double fromValue, String fromKey) {
+		if (this.fromKey.equals(fromKey)) return this.forwards(fromValue);
+		else if (this.toKey.equals(fromKey)) return this.backwards(fromValue);
 
 		throw new IllegalArgumentException("Given class is not part of this converter");
 	}
 
-	public Class<?> getCommonUnit(Converter<?, ?> other) {
-		if(other.getToClass().equals(fromClass) || other.getFromClass().equals(fromClass)) {
-			return fromClass;
-		} else if(other.getToClass().equals(toClass) || other.getFromClass().equals(toClass)) {
-			return toClass;
+	public String getCommonUnit(Converter other) {
+		if(other.getToKey().equals(fromKey) || other.getFromKey().equals(fromKey)) {
+			return fromKey;
+		} else if(other.getToKey().equals(toKey) || other.getFromKey().equals(toKey)) {
+			return toKey;
 		}
 		return null;
 	}
 
-	public boolean isCompatibleWith(Converter<?, ?> other) {
+	public boolean isCompatibleWith(Converter other) {
 		return getCommonUnit(other) != null;
 	}
 
@@ -45,12 +43,11 @@ public abstract class Converter<S extends Unit, T extends Unit> {
 		return key;
 	}
 
-	public Class<S> getFromClass() {
-		return fromClass;
+	public String getFromKey() {
+		return fromKey;
 	}
 
-	public Class<T> getToClass() {
-		return toClass;
+	public String getToKey() {
+		return toKey;
 	}
-
 }

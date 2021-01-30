@@ -7,11 +7,8 @@ import com.github.convertiverse.converter.ConverterRegistry;
 import com.github.convertiverse.converter.EuroToDollarConverter;
 import com.github.convertiverse.converter.YenToDollarConverter;
 import com.github.convertiverse.database.UserDao;
-import com.github.convertiverse.unit.DollarUnit;
-import com.github.convertiverse.unit.EuroUnit;
 import com.github.convertiverse.unit.Unit;
 import com.github.convertiverse.unit.UnitRegistry;
-import com.github.convertiverse.unit.YenUnit;
 import java.util.List;
 
 /**
@@ -35,15 +32,15 @@ public class ConvertiverseApp {
 
 	public ConvertiverseApp() {
 		// initialize default categories
-		categoryRegistry.register(new ConverterCategory("currency", "Währung", "empty", DollarUnit.class));
-		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty", null));
-		categoryRegistry.register(new ConverterCategory("distance", "Entfernung", "empty", null));
-		categoryRegistry.register(new ConverterCategory("speed", "Geschwindigkeit", "empty", null));
+		categoryRegistry.register(new ConverterCategory("currency", "Währung", "empty"));
+		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty"));
+		categoryRegistry.register(new ConverterCategory("distance", "Entfernung", "empty"));
+		categoryRegistry.register(new ConverterCategory("speed", "Geschwindigkeit", "empty"));
 
 		// initialize default units
-		unitRegistry.register(new EuroUnit("currency"));
-		unitRegistry.register(new DollarUnit("currency"));
-		unitRegistry.register(new YenUnit("currency"));
+		unitRegistry.register(new Unit("euro", "currency", "Euro", "EUR"));
+		unitRegistry.register(new Unit("dollar", "currency", "Dollar", "EUR"));
+		unitRegistry.register(new Unit("japanese_yen", "currency", "Japanische Yen", "JPY"));
 
 		// initialize default converter
 		converterRegistry.register(new EuroToDollarConverter());
@@ -56,8 +53,8 @@ public class ConvertiverseApp {
 		FirebaseInstallations.getInstance().getId().addOnSuccessListener(s -> uniqueUserId = s);*/
 	}
 
-	public <S extends Unit, T extends Unit> double convert(Class<S> fromUnitClass, double value, Class<T> toUnitClass) {
-		Converter<S, T> converter = converterRegistry.get(fromUnitClass, toUnitClass);
+	public <S extends Unit, T extends Unit> double convert(String fromUnitKey, double value, String toUnitKey) {
+		Converter converter = converterRegistry.get(fromUnitKey, toUnitKey);
 		if (converter == null) throw new IllegalStateException("Such a conversion is currently not possible.");
 		return converter.forwards(value);
 	}
