@@ -9,6 +9,7 @@ import com.github.convertiverse.converter.YenToDollarConverter;
 import com.github.convertiverse.database.UserDao;
 import com.github.convertiverse.unit.Unit;
 import com.github.convertiverse.unit.UnitRegistry;
+import com.github.convertiverse.userdata.UserDataManager;
 import java.util.List;
 
 /**
@@ -26,16 +27,17 @@ public class ConvertiverseApp {
 	private final ConverterRegistry converterRegistry = new ConverterRegistry();
 	private final UnitRegistry unitRegistry = new UnitRegistry();
 	private final CategoryRegistry categoryRegistry = new CategoryRegistry();
+	private final UserDataManager userDataManager = new UserDataManager();
 
 	private String uniqueUserId;
 	private UserDao userDao;
 
 	public ConvertiverseApp() {
 		// initialize default categories
-		categoryRegistry.register(new ConverterCategory("currency", "Währung", "empty"));
-		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty"));
-		categoryRegistry.register(new ConverterCategory("distance", "Entfernung", "empty"));
-		categoryRegistry.register(new ConverterCategory("speed", "Geschwindigkeit", "empty"));
+		categoryRegistry.register(new ConverterCategory("currency", "Währung", "empty", "#264653"));
+		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty", "#e76f51"));
+		categoryRegistry.register(new ConverterCategory("distance", "Entfernung", "empty", "#e9c46a"));
+		categoryRegistry.register(new ConverterCategory("speed", "Geschwindigkeit", "empty", "#275c62"));
 
 		// initialize default units
 		unitRegistry.register(new Unit("euro", "currency", "Euro", "EUR"));
@@ -77,6 +79,10 @@ public class ConvertiverseApp {
 
 	public UserDao getUserDao() {
 		return userDao;
+	}
+
+	public UserDataManager getUserDataManager() {
+		return userDataManager;
 	}
 
 }
