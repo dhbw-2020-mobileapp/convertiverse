@@ -4,6 +4,7 @@ import com.github.convertiverse.category.CategoryRegistry;
 import com.github.convertiverse.category.ConverterCategory;
 import com.github.convertiverse.converter.Converter;
 import com.github.convertiverse.converter.ConverterRegistry;
+import com.github.convertiverse.converter.ExchangeRateManager;
 import com.github.convertiverse.converter.currency.EuroToDollarConverter;
 import com.github.convertiverse.converter.currency.YenToDollarConverter;
 import com.github.convertiverse.converter.distance.CentimetreToMetreConverter;
@@ -36,10 +37,15 @@ public class ConvertiverseApp {
 	private final CategoryRegistry categoryRegistry = new CategoryRegistry();
 	private final UserDataManager userDataManager = new UserDataManager();
 
+	private final ExchangeRateManager exchangeRateManager;
+
 	private String uniqueUserId;
 	private UserDao userDao;
 
 	public ConvertiverseApp() {
+		this.exchangeRateManager = new ExchangeRateManager("d1e801414d993d532aa54dde");
+		this.exchangeRateManager.request();
+
 		// initialize default categories
 		categoryRegistry.register(new ConverterCategory("currency", "Währung", "empty", "#264653"));
 		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty", "#e76f51"));
@@ -65,8 +71,8 @@ public class ConvertiverseApp {
 		unitRegistry.register(new Unit("kilometre_per_hour", "speed", "Kilometer pro Stunde", "km/h"));
 
 		// initialize default converter
-		converterRegistry.register(new EuroToDollarConverter());
-		converterRegistry.register(new YenToDollarConverter());
+		converterRegistry.register(new EuroToDollarConverter(exchangeRateManager));
+		converterRegistry.register(new YenToDollarConverter(exchangeRateManager));
 
 		converterRegistry.register(new MilligramToGramConverter());
 		converterRegistry.register(new KilogramToGramConverter());
@@ -78,7 +84,6 @@ public class ConvertiverseApp {
 
 		converterRegistry.register(new KilometrePerHourToMetrePerSecondConverter());
 
-		System.out.println("36m/s in km/h: " + this.convert("metre_per_second", 36, "kilometre_per_hour"));
 		// connect to db
 		/*FirebaseFirestore db = FirebaseFirestore.getInstance();
 		this.userDao = new FirestoreUserDao(db);

@@ -1,24 +1,32 @@
 package com.github.convertiverse.converter.currency;
 
 import com.github.convertiverse.converter.Converter;
+import com.github.convertiverse.converter.ExchangeRateManager;
 
 /**
  * @author Tobias Büser
  */
 public class EuroToDollarConverter extends Converter {
 
-	public EuroToDollarConverter() {
+	private final ExchangeRateManager exchangeRateManager;
+
+	public EuroToDollarConverter(ExchangeRateManager rateManager) {
 		super("euro", "dollar");
+		this.exchangeRateManager = rateManager;
 	}
 
 	@Override
 	public double forwards(double fromValue) {
-		return fromValue * 1.22;
+		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+
+		return fromValue / rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		return toValue / 1.22;
+		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+
+		return toValue * rate;
 	}
 
 }
