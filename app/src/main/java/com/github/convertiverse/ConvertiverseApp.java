@@ -92,6 +92,10 @@ public class ConvertiverseApp {
 		return converter.forwards(value);
 	}
 
+	public Unit getUnit(String unitKey) {
+		return this.unitRegistry.get(unitKey);
+	}
+
 	public List<? extends Unit> getUnits(String categoryKey) {
 		return this.unitRegistry.getAll(categoryKey);
 	}
