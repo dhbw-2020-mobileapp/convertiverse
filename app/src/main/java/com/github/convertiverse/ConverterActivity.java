@@ -2,26 +2,17 @@ package com.github.convertiverse;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.github.convertiverse.category.ConverterCategory;
-import com.github.convertiverse.unit.Unit;
-import com.github.convertiverse.unit.UnitRegistry;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ConverterActivity extends AppCompatActivity {
 
@@ -73,7 +64,7 @@ public class ConverterActivity extends AppCompatActivity {
         //set AlertDialog title
         builder.setTitle("Verlauf");
         //set icon (optional)
-        builder.setIcon(R.drawable.currency);
+        //builder.setIcon(R.drawable.currency);
         //set properties using chaining
         builder.setItems(historyItems, new DialogInterface.OnClickListener() {
             @Override

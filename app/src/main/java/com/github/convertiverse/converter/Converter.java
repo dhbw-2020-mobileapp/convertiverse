@@ -5,12 +5,10 @@ package com.github.convertiverse.converter;
  */
 public abstract class Converter {
 
-	private final String key;
 	private final String fromKey;
 	private final String toKey;
 
-	public Converter(String key, String from, String to) {
-		this.key = key;
+	public Converter(String from, String to) {
 		this.fromKey = from;
 		this.toKey = to;
 	}
@@ -37,10 +35,6 @@ public abstract class Converter {
 
 	public boolean isCompatibleWith(Converter other) {
 		return getCommonUnit(other) != null;
-	}
-
-	public String getKey() {
-		return key;
 	}
 
 	public String getFromKey() {

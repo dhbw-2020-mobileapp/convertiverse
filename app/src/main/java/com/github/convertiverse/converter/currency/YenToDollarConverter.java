@@ -1,4 +1,6 @@
-package com.github.convertiverse.converter;
+package com.github.convertiverse.converter.currency;
+
+import com.github.convertiverse.converter.Converter;
 
 /**
  * @author Tobias Büser
@@ -6,7 +8,7 @@ package com.github.convertiverse.converter;
 public class YenToDollarConverter extends Converter {
 
 	public YenToDollarConverter() {
-		super("yen_to_dollar", "japanese_yen", "dollar");
+		super("japanese_yen", "dollar");
 	}
 
 	@Override

@@ -1,4 +1,6 @@
-package com.github.convertiverse.converter;
+package com.github.convertiverse.converter.currency;
+
+import com.github.convertiverse.converter.Converter;
 
 /**
  * @author Tobias Büser
@@ -6,7 +8,7 @@ package com.github.convertiverse.converter;
 public class EuroToDollarConverter extends Converter {
 
 	public EuroToDollarConverter() {
-		super("euro_to_dollar", "euro", "dollar");
+		super("euro", "dollar");
 	}
 
 	@Override

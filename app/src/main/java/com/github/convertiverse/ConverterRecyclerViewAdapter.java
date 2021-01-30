@@ -3,10 +3,6 @@ package com.github.convertiverse;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +10,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.github.convertiverse.category.CategoryRegistry;
 import com.github.convertiverse.unit.Unit;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
 
@@ -89,7 +77,7 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
                     //set AlertDialog title
                     builder.setTitle("Einheit auswählen");
                     //set icon (optional)
-                    builder.setIcon(R.drawable.currency);
+                    //builder.setIcon(R.drawable.currency);
                     //set multichoice
                     builder.setMultiChoiceItems(unitArray, checkedUnitArray, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override

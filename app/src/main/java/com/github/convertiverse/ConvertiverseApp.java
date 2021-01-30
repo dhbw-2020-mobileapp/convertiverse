@@ -4,8 +4,15 @@ import com.github.convertiverse.category.CategoryRegistry;
 import com.github.convertiverse.category.ConverterCategory;
 import com.github.convertiverse.converter.Converter;
 import com.github.convertiverse.converter.ConverterRegistry;
-import com.github.convertiverse.converter.EuroToDollarConverter;
-import com.github.convertiverse.converter.YenToDollarConverter;
+import com.github.convertiverse.converter.currency.EuroToDollarConverter;
+import com.github.convertiverse.converter.currency.YenToDollarConverter;
+import com.github.convertiverse.converter.distance.CentimetreToMetreConverter;
+import com.github.convertiverse.converter.distance.KilometreToMetreConverter;
+import com.github.convertiverse.converter.distance.MillimetreToMetreConverter;
+import com.github.convertiverse.converter.speed.KilometrePerHourToMetrePerSecondConverter;
+import com.github.convertiverse.converter.weight.KilogramToGramConverter;
+import com.github.convertiverse.converter.weight.MilligramToGramConverter;
+import com.github.convertiverse.converter.weight.TonneToGramConverter;
 import com.github.convertiverse.database.UserDao;
 import com.github.convertiverse.unit.Unit;
 import com.github.convertiverse.unit.UnitRegistry;
@@ -44,10 +51,34 @@ public class ConvertiverseApp {
 		unitRegistry.register(new Unit("dollar", "currency", "Dollar", "EUR"));
 		unitRegistry.register(new Unit("japanese_yen", "currency", "Japanische Yen", "JPY"));
 
+		unitRegistry.register(new Unit("milligram", "weight", "Milligramm", "mg"));
+		unitRegistry.register(new Unit("gram", "weight", "Gramm", "g"));
+		unitRegistry.register(new Unit("kilogram", "weight", "Kilogramm", "kg"));
+		unitRegistry.register(new Unit("tonne", "weight", "Tonne", "t"));
+
+		unitRegistry.register(new Unit("millimetre", "distance", "Millimeter", "mm"));
+		unitRegistry.register(new Unit("centimetre", "distance", "Centimeter", "cm"));
+		unitRegistry.register(new Unit("metre", "distance", "Meter", "m"));
+		unitRegistry.register(new Unit("kilometre", "distance", "Kilometer", "km"));
+
+		unitRegistry.register(new Unit("metre_per_second", "speed", "Meter pro Sekunde", "m/s"));
+		unitRegistry.register(new Unit("kilometre_per_hour", "speed", "Kilometer pro Stunde", "km/h"));
+
 		// initialize default converter
 		converterRegistry.register(new EuroToDollarConverter());
 		converterRegistry.register(new YenToDollarConverter());
 
+		converterRegistry.register(new MilligramToGramConverter());
+		converterRegistry.register(new KilogramToGramConverter());
+		converterRegistry.register(new TonneToGramConverter());
+
+		converterRegistry.register(new MillimetreToMetreConverter());
+		converterRegistry.register(new CentimetreToMetreConverter());
+		converterRegistry.register(new KilometreToMetreConverter());
+
+		converterRegistry.register(new KilometrePerHourToMetrePerSecondConverter());
+
+		System.out.println("36m/s in km/h: " + this.convert("metre_per_second", 36, "kilometre_per_hour"));
 		// connect to db
 		/*FirebaseFirestore db = FirebaseFirestore.getInstance();
 		this.userDao = new FirestoreUserDao(db);
