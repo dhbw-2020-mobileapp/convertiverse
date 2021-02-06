@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.number.Precision;
 import android.widget.RemoteViews;
 
@@ -655,6 +656,7 @@ public class WidgetReceiver extends AppWidgetProvider {
         } catch (Exception ignored) {};
 
         views.setTextViewText(R.id.textView_category, category.getDisplayName() + " ▼");
+        views.setInt(R.id.category_banner, "setBackgroundColor", Color.parseColor(category.getColorCode()));
 
         // set units
 

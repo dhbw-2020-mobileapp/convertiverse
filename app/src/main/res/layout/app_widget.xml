@@ -9,6 +9,7 @@
     android:theme="@style/ThemeOverlay.Convertiverse.AppWidgetContainer">
 
     <LinearLayout
+        android:id="@+id/category_banner"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#264653"
