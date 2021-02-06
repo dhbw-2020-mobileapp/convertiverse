@@ -31,13 +31,6 @@
             android:focusable="true"
             android:background="?android:attr/selectableItemBackground" />
 
-        <ImageView
-            android:id="@+id/imageView_category"
-            android:layout_width="60dp"
-            android:layout_height="55dp"
-            android:paddingStart="5sp"
-            android:paddingEnd="15sp"
-            app:srcCompat="@drawable/googleg_standard_color_18" />
 
     </LinearLayout>
 

@@ -527,12 +527,36 @@ public class WidgetReceiver extends AppWidgetProvider {
     private RemoteViews chooseUnit(int btnID, RemoteViews views) {
 
         if (currentUnitSelected == 1) {
-            //...
-            return views;
+
+            try {
+
+                unit1 = unitList.get((unit1Page * btnID) - 1);
+
+            } catch (Exception ignored) {};
+
+            views.setTextViewText(R.id.textView_unit1, unit1.getDisplayNameShort() + " ▼");
+
+            currentValueSelected = 2;
+            convert(views);
+            currentValueSelected = 1;
+
         } else {
-            //...
-            return views;
+
+            try {
+
+                unit2 = unitList.get((unit2Page * btnID) - 1);
+
+            } catch (Exception ignored) {};
+
+            views.setTextViewText(R.id.textView_unit2, unit2.getDisplayNameShort() + " ▼");
+
+            currentValueSelected = 1;
+            convert(views);
+            currentValueSelected = 2;
+
         }
+
+        return views;
 
     }
 
@@ -623,7 +647,29 @@ public class WidgetReceiver extends AppWidgetProvider {
     }
 
     private RemoteViews chooseCategory(int btnID, RemoteViews views) {
-        //...
+
+        try {
+
+            category = categoriesList.get((categoryPage * btnID) - 1);
+
+        } catch (Exception ignored) {};
+
+        views.setTextViewText(R.id.textView_category, category.getDisplayName() + " ▼");
+
+        // set units
+
+        unitList = ConvertiverseApp.getInstance().getUnits(category.getKey());
+        currentValueSelected = 1;
+
+        unit1 = unitList.get(0);
+        value1 = "0";
+        views.setTextViewText(R.id.textView_value1, value1);
+        views.setTextViewText(R.id.textView_unit1, unit1.getDisplayNameShort() + " ▼");
+
+        unit2 = unitList.get(1);
+        views.setTextViewText(R.id.textView_unit2, unit2.getDisplayNameShort() + " ▼");
+        convert(views);
+
         return views;
     }
 

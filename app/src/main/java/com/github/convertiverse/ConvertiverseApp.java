@@ -54,7 +54,7 @@ public class ConvertiverseApp {
 
 		// initialize default units
 		unitRegistry.register(new Unit("euro", "currency", "Euro", "EUR"));
-		unitRegistry.register(new Unit("dollar", "currency", "Dollar", "EUR"));
+		unitRegistry.register(new Unit("dollar", "currency", "Dollar", "USD"));
 		unitRegistry.register(new Unit("japanese_yen", "currency", "Japanische Yen", "JPY"));
 
 		unitRegistry.register(new Unit("milligram", "weight", "Milligramm", "mg"));
