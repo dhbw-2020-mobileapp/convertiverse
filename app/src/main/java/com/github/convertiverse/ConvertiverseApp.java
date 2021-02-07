@@ -64,14 +64,14 @@ public class ConvertiverseApp {
 
 		// initialize default categories
 		categoryRegistry.register(new ConverterCategory("currency", "Währung", "empty", "#264653"));
-		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty", "#e76f51"));
+		categoryRegistry.register(new ConverterCategory("weight", "Gewicht", "empty", "#287271"));
 		categoryRegistry.register(new ConverterCategory("distance", "Entfernung", "empty", "#e9c46a"));
 		categoryRegistry.register(new ConverterCategory("speed", "Geschwindigkeit", "empty", "#275c62"));
-		categoryRegistry.register(new ConverterCategory("area", "Fläche", "empty", "#275c62"));
-		categoryRegistry.register(new ConverterCategory("volume", "Volumen", "empty", "#275c62"));
-		categoryRegistry.register(new ConverterCategory("temperature", "Temperatur", "empty", "#275c62"));
-		categoryRegistry.register(new ConverterCategory("bytes", "Speichergrößen", "empty", "#275c62"));
-		categoryRegistry.register(new ConverterCategory("time", "Zeit", "empty", "#275c62"));
+		categoryRegistry.register(new ConverterCategory("area", "Fläche", "empty", "#eb7c55"));
+		categoryRegistry.register(new ConverterCategory("volume", "Volumen", "empty", "#e9c46a"));
+		categoryRegistry.register(new ConverterCategory("temperature", "Temperatur", "empty", "#298880"));
+		categoryRegistry.register(new ConverterCategory("bytes", "Speichergrößen", "empty", "#ee8959"));
+		categoryRegistry.register(new ConverterCategory("time", "Zeit", "empty", "#5aa786"));
 
 		// initialize default units
 		unitRegistry.register(new Unit("euro", "currency", "Euro", "EUR"));

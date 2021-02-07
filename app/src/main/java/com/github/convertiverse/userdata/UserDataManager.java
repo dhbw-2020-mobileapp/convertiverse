@@ -26,7 +26,7 @@ public class UserDataManager {
 	}
 
 	public boolean isVisible(String unitKey) {
-		Boolean flag = this.unitVisibility.getOrDefault(unitKey, false);
+		Boolean flag = this.unitVisibility.getOrDefault(unitKey, true);
 
 		return flag != null && flag;
 	}
