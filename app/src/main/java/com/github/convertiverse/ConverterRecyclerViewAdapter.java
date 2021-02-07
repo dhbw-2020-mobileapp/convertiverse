@@ -159,7 +159,6 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
                                 // Call Converter Method and round result
                                 try {
 	                                toValue = ConvertiverseApp.getInstance().convert(unitList.get(position).getKey(), fromValue, unitList.get(i).getKey());
-	                                System.out.println("convert " + unitList.get(position).getKey() + " to " + unitList.get(i).getKey());
                                 } catch (IllegalStateException ex) {
                                 	// when a converter could not be found
 	                                toValue = 0;
