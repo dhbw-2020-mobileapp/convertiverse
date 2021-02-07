@@ -6,27 +6,26 @@ import com.github.convertiverse.converter.ExchangeRateManager;
 /**
  * @author Tobias Büser
  */
-public class EuroToDollarConverter extends Converter {
+public class CanadianDollarToDollarConverter extends Converter {
 
 	private final ExchangeRateManager exchangeRateManager;
 
-	public EuroToDollarConverter(ExchangeRateManager rateManager) {
-		super("euro", "dollar");
+	public CanadianDollarToDollarConverter(ExchangeRateManager rateManager) {
+		super("canadian_dollar", "dollar");
 		this.exchangeRateManager = rateManager;
 	}
 
 	@Override
 	public double forwards(double fromValue) {
-		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+		double rate = exchangeRateManager.getRateOrDefault("CAD", 0.78);
 
 		return fromValue * rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+		double rate = exchangeRateManager.getRateOrDefault("CAD", 0.78);
 
 		return toValue / rate;
 	}
-
 }

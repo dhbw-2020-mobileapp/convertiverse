@@ -6,27 +6,26 @@ import com.github.convertiverse.converter.ExchangeRateManager;
 /**
  * @author Tobias Büser
  */
-public class EuroToDollarConverter extends Converter {
+public class KroneToDollarConverter extends Converter {
 
 	private final ExchangeRateManager exchangeRateManager;
 
-	public EuroToDollarConverter(ExchangeRateManager rateManager) {
-		super("euro", "dollar");
+	public KroneToDollarConverter(ExchangeRateManager rateManager) {
+		super("danish_krone", "dollar");
 		this.exchangeRateManager = rateManager;
 	}
 
 	@Override
 	public double forwards(double fromValue) {
-		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+		double rate = exchangeRateManager.getRateOrDefault("DKK", 0.16);
 
 		return fromValue * rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+		double rate = exchangeRateManager.getRateOrDefault("DKK", 0.16);
 
 		return toValue / rate;
 	}
-
 }

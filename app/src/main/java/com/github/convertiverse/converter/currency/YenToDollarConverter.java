@@ -19,14 +19,14 @@ public class YenToDollarConverter extends Converter {
 	public double forwards(double fromValue) {
 		double rate = exchangeRateManager.getRateOrDefault("JPY", 0.0096);
 
-		return fromValue / rate;
+		return fromValue * rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
 		double rate = exchangeRateManager.getRateOrDefault("JPY", 0.0096);
 
-		return toValue * rate;
+		return toValue / rate;
 	}
 
 }
