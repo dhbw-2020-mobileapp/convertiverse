@@ -3,6 +3,7 @@ package com.github.convertiverse;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -157,10 +158,13 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
                                 ViewHolderUnit v = views.get(i);
 
                                 // Call Converter Method and round result
+	                            String from = unitList.get(position).getKey();
+	                            String to = unitList.get(i).getKey();
                                 try {
-	                                toValue = ConvertiverseApp.getInstance().convert(unitList.get(position).getKey(), fromValue, unitList.get(i).getKey());
+	                                toValue = ConvertiverseApp.getInstance().convert(from, fromValue, to);
                                 } catch (IllegalStateException ex) {
                                 	// when a converter could not be found
+	                                Log.e("Converter", "could not find converter for converting " + from + " to " + to);
 	                                toValue = 0;
                                 }
                                 BigDecimal bd = new BigDecimal(toValue).setScale(5, RoundingMode.HALF_UP);

@@ -13,13 +13,11 @@ public class KilometrePerHourToMetrePerSecondConverter extends Converter {
 
 	@Override
 	public double forwards(double fromValue) {
-		System.out.println(">> FWD");
 		return fromValue * 0.277778;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		System.out.println(">> BWD");
 		return toValue * 3.6;
 	}
 }

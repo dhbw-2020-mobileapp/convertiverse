@@ -105,7 +105,7 @@ public class ConvertiverseApp {
 		unitRegistry.register(new Unit("cubic_centimetre", "volume", "Kubikcentimeter", "cm^3"));
 
 		unitRegistry.register(new Unit("fahrenheit", "temperature", "Fahrenheit", "°F"));
-		unitRegistry.register(new Unit("celcius", "temperature", "Celsius", "°C"));
+		unitRegistry.register(new Unit("celsius", "temperature", "Celsius", "°C"));
 		unitRegistry.register(new Unit("kelvin", "temperature", "Kelvin", "K"));
 
 		unitRegistry.register(new Unit("bit", "bytes", "Bit", "bit"));
