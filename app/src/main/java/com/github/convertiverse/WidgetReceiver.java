@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.icu.number.Precision;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.github.convertiverse.category.ConverterCategory;
@@ -387,13 +388,11 @@ public class WidgetReceiver extends AppWidgetProvider {
             updateWidget(context, views);
         } else if (ACTION_WIDGET_BTN_UNIT_BACKWARD.equals(intent.getAction())) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-
             views = chooseUnitChangePage(1, views);
 
             updateWidget(context, views);
         } else if (ACTION_WIDGET_BTN_UNIT_FORWARD.equals(intent.getAction())) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-
             views = chooseUnitChangePage(2, views);
 
             updateWidget(context, views);
@@ -531,7 +530,7 @@ public class WidgetReceiver extends AppWidgetProvider {
 
             try {
 
-                unit1 = unitList.get((unit1Page * btnID) - 1);
+                unit1 = unitList.get((((unit1Page-1) * 6) + btnID) - 1);
 
             } catch (Exception ignored) {};
 
@@ -564,36 +563,33 @@ public class WidgetReceiver extends AppWidgetProvider {
     private RemoteViews chooseUnitChangePage(int btnID, RemoteViews views) {
 
         if (currentUnitSelected == 1) {
-
             if (btnID == 1) {
-                if (unit1Page-1 >= 1 && Math.round(((float) unitList.size()/6.0)) >= unit1Page-1) {
+                if (unit1Page-1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit1Page-1) {
                     unit1Page--;
                     fillUnits(views);
                 }
             } else {
-                if (unit1Page+1 >= 1 && Math.round(((float) unitList.size()/6.0)) >= unit1Page+1) {
+                if (unit1Page+1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit1Page+1) {
                     unit1Page++;
-                    fillCategories(views);
+                    fillUnits(views);
                 }
             }
 
         } else {
 
             if (btnID == 1) {
-                if (unit2Page-1 >= 1 && Math.round(((float) unitList.size()/6.0)) >= unit2Page-1) {
+                if (unit2Page-1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit2Page-1) {
                     unit2Page--;
-                    fillCategories(views);
+                    fillUnits(views);
                 }
             } else {
-                if (unit2Page+1 >= 1 && Math.round(((float) unitList.size()/6.0)) >= unit2Page+1) {
+                if (unit2Page+1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit2Page+1) {
                     unit2Page++;
-                    fillCategories(views);
+                    fillUnits(views);
                 }
             }
 
         }
-
-
 
         return views;
 
@@ -601,7 +597,7 @@ public class WidgetReceiver extends AppWidgetProvider {
 
     private void fillUnits(RemoteViews views) {
 
-        int unitPage = 1;
+        int unitPage;
 
         if (currentUnitSelected == 1) {
             unitPage = unit1Page;
@@ -651,7 +647,7 @@ public class WidgetReceiver extends AppWidgetProvider {
 
         try {
 
-            category = categoriesList.get((categoryPage * btnID) - 1);
+            category = categoriesList.get((((categoryPage-1) * 4) + btnID) - 1);
 
         } catch (Exception ignored) {};
 
@@ -676,14 +672,13 @@ public class WidgetReceiver extends AppWidgetProvider {
     }
 
     private RemoteViews chooseCategoryChangePage(int btnID, RemoteViews views) {
-
         if (btnID == 1) {
-            if (categoryPage-1 >= 1 && Math.round(((float) categoriesList.size()/4.0)) >= categoryPage-1) {
+            if (categoryPage-1 >= 1 && Math.ceil(((float) categoriesList.size()/4.0)) >= categoryPage-1) {
                 categoryPage--;
                 fillCategories(views);
             }
         } else {
-            if (categoryPage+1 >= 1 && Math.round(((float) categoriesList.size()/4.0)) >= categoryPage+1) {
+            if (categoryPage+1 >= 1 && Math.ceil(((float) categoriesList.size()/4.0)) >= categoryPage+1) {
                 categoryPage++;
                 fillCategories(views);
             }
@@ -695,26 +690,26 @@ public class WidgetReceiver extends AppWidgetProvider {
 
     private void fillCategories(RemoteViews views) {
 
-        if ((((categoryPage - 1) * 6)) < categoriesList.size()) {
-            views.setTextViewText(R.id.category1, shortenStr(categoriesList.get(((categoryPage - 1) * 6)).getDisplayName()));
+        if ((((categoryPage - 1) * 4)) < categoriesList.size()) {
+            views.setTextViewText(R.id.category1, shortenStr(categoriesList.get(((categoryPage - 1) * 4)).getDisplayName()));
         } else {
             views.setTextViewText(R.id.category1, "-");
         }
 
-        if ((((categoryPage-1)*6)+1) < categoriesList.size()) {
-            views.setTextViewText(R.id.category2, shortenStr(categoriesList.get(((categoryPage-1)*6)+1).getDisplayName()));
+        if ((((categoryPage-1)*4)+1) < categoriesList.size()) {
+            views.setTextViewText(R.id.category2, shortenStr(categoriesList.get(((categoryPage-1)*4)+1).getDisplayName()));
         } else {
             views.setTextViewText(R.id.category2, "-");
         }
 
-        if ((((categoryPage-1)*6)+2) < categoriesList.size()) {
-            views.setTextViewText(R.id.category3, shortenStr(categoriesList.get(((categoryPage-1)*6)+2).getDisplayName()));
+        if ((((categoryPage-1)*4)+2) < categoriesList.size()) {
+            views.setTextViewText(R.id.category3, shortenStr(categoriesList.get(((categoryPage-1)*4)+2).getDisplayName()));
         } else {
             views.setTextViewText(R.id.category3, "-");
         }
 
-        if ((((categoryPage-1)*6)+3) < categoriesList.size()) {
-            views.setTextViewText(R.id.category4, shortenStr(categoriesList.get(((categoryPage-1)*6)+3).getDisplayName()));
+        if ((((categoryPage-1)*4)+3) < categoriesList.size()) {
+            views.setTextViewText(R.id.category4, shortenStr(categoriesList.get(((categoryPage-1)*4)+3).getDisplayName()));
         } else {
             views.setTextViewText(R.id.category4, "-");
         }
