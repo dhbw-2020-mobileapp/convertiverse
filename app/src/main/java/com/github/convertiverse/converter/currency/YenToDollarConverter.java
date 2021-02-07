@@ -17,16 +17,16 @@ public class YenToDollarConverter extends Converter {
 
 	@Override
 	public double forwards(double fromValue) {
-		double rate = exchangeRateManager.getRateOrDefault("JPY", 0.0096);
+		double rate = exchangeRateManager.getRateOrDefault("JPY", 105.36);
 
-		return fromValue * rate;
+		return fromValue / rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		double rate = exchangeRateManager.getRateOrDefault("JPY", 0.0096);
+		double rate = exchangeRateManager.getRateOrDefault("JPY", 105.36);
 
-		return toValue / rate;
+		return toValue * rate;
 	}
 
 }

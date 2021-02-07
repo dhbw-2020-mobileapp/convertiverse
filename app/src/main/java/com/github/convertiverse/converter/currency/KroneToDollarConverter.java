@@ -17,15 +17,15 @@ public class KroneToDollarConverter extends Converter {
 
 	@Override
 	public double forwards(double fromValue) {
-		double rate = exchangeRateManager.getRateOrDefault("DKK", 0.16);
+		double rate = exchangeRateManager.getRateOrDefault("DKK", 6.17);
 
-		return fromValue * rate;
+		return fromValue / rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		double rate = exchangeRateManager.getRateOrDefault("DKK", 0.16);
+		double rate = exchangeRateManager.getRateOrDefault("DKK", 6.17);
 
-		return toValue / rate;
+		return toValue * rate;
 	}
 }

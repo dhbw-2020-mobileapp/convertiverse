@@ -17,16 +17,16 @@ public class EuroToDollarConverter extends Converter {
 
 	@Override
 	public double forwards(double fromValue) {
-		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+		double rate = exchangeRateManager.getRateOrDefault("EUR", 0.83);
 
-		return fromValue * rate;
+		return fromValue / rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		double rate = exchangeRateManager.getRateOrDefault("EUR", 1.22);
+		double rate = exchangeRateManager.getRateOrDefault("EUR", 0.83);
 
-		return toValue / rate;
+		return toValue * rate;
 	}
 
 }

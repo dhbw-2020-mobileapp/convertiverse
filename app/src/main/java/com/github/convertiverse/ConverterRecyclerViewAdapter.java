@@ -14,11 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.convertiverse.unit.Unit;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
@@ -159,7 +157,13 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
                                 ViewHolderUnit v = views.get(i);
 
                                 // Call Converter Method and round result
-                                toValue = ConvertiverseApp.getInstance().convert(unitList.get(position).getKey(), fromValue, unitList.get(i).getKey());
+                                try {
+	                                toValue = ConvertiverseApp.getInstance().convert(unitList.get(position).getKey(), fromValue, unitList.get(i).getKey());
+	                                System.out.println("convert " + unitList.get(position).getKey() + " to " + unitList.get(i).getKey());
+                                } catch (IllegalStateException ex) {
+                                	// when a converter could not be found
+	                                toValue = 0;
+                                }
                                 BigDecimal bd = new BigDecimal(toValue).setScale(5, RoundingMode.HALF_UP);
                                 String output = Double.toString(bd.doubleValue()).replace('.', ',');
 

@@ -17,15 +17,15 @@ public class PoundSterlingToDollarConverter extends Converter {
 
 	@Override
 	public double forwards(double fromValue) {
-		double rate = exchangeRateManager.getRateOrDefault("GBP", 1.37);
+		double rate = exchangeRateManager.getRateOrDefault("GBP", 0.73);
 
-		return fromValue * rate;
+		return fromValue / rate;
 	}
 
 	@Override
 	public double backwards(double toValue) {
-		double rate = exchangeRateManager.getRateOrDefault("GBP", 1.37);
+		double rate = exchangeRateManager.getRateOrDefault("GBP", 0.73);
 
-		return toValue / rate;
+		return toValue * rate;
 	}
 }
