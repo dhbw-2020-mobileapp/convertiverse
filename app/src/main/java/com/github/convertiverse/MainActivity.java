@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private List<ConverterCategory> categoriesList;
     private RecyclerView recyclerView;
+    private int sortPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     categoriesList.removeAll(Collections.singleton(null));
                 }
 
+                if (sortPosition == 0) {
+                    sortCategories();
+                } else {
+                    sortCategories();
+                    categoriesList = Lists.reverse(categoriesList);
+                }
+
                 setCategoryAdapter();
 
             }
@@ -89,8 +97,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position == 0) {
+            sortPosition = 0;
             sortCategories();
         } else {
+            sortPosition = 1;
             sortCategories();
             categoriesList = Lists.reverse(categoriesList);
         }
