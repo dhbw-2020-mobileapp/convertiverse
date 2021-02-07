@@ -14,13 +14,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.convertiverse.category.ConverterCategory;
+
 import java.util.List;
 
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.CategoriesViewHolder> {
 
-    private List<ConverterCategory> categoriesList;
-    private Context context;
+    private final List<ConverterCategory> categoriesList;
+    private final Context context;
 
     public CategoriesRecyclerViewAdapter(List<ConverterCategory> categories, Context context) {
         this.categoriesList = categories;
@@ -31,12 +32,12 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     @Override
     public CategoriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category, parent, false);
-        CategoriesViewHolder holder = new CategoriesViewHolder(view);
-        return holder;
+        return new CategoriesViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CategoriesViewHolder holder, final int position) {
+
         int imgKey = context.getResources().getIdentifier("com.github.convertiverse:drawable/" + categoriesList.get(position).getKey(), null, null);
 
         holder.categoryName.setText(categoriesList.get(position).getDisplayName());
@@ -58,7 +59,8 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         return categoriesList.size();
     }
 
-    public class CategoriesViewHolder extends RecyclerView.ViewHolder {
+    public static class CategoriesViewHolder extends RecyclerView.ViewHolder {
+
         TextView categoryName;
         ImageView categoryIcon;
         ConstraintLayout categoryLayout;

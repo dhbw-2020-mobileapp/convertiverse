@@ -7,8 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.number.Precision;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.github.convertiverse.category.ConverterCategory;
@@ -20,19 +18,7 @@ import java.util.List;
 
 public class WidgetReceiver extends AppWidgetProvider {
 
-    private static String value1 = "0";
-    private static String value2 = "0";
-    private static ConverterCategory category = ConvertiverseApp.getInstance().getCategory("currency");
-    private static Unit unit1 = ConvertiverseApp.getInstance().getUnit("dollar");
-    private static Unit unit2 = ConvertiverseApp.getInstance().getUnit("euro");
-    private static List<ConverterCategory> categoriesList = ConvertiverseApp.getInstance().getCategories();
-    private static List<? extends Unit> unitList = ConvertiverseApp.getInstance().getUnits("currency");
-    private static int currentValueSelected = 1;
-    private static int currentUnitSelected = 1;
-    private static int categoryPage = 1;
-    private static int unit1Page = 1;
-    private static int unit2Page = 1;
-
+    private static final List<ConverterCategory> categoriesList = ConvertiverseApp.getInstance().getCategories();
     private static final String ACTION_WIDGET_CATEGORY = "ACTION_WIDGET_CATEGORY";
     private static final String ACTION_WIDGET_UNIT_1 = "ACTION_WIDGET_UNIT_1";
     private static final String ACTION_WIDGET_UNIT_2 = "ACTION_WIDGET_UNIT_2";
@@ -64,13 +50,17 @@ public class WidgetReceiver extends AppWidgetProvider {
     private static final String ACTION_WIDGET_BTN_CATEGORY_4 = "ACTION_WIDGET_BTN_CATEGORY_4";
     private static final String ACTION_WIDGET_BTN_CATEGORY_BACKWARD = "ACTION_WIDGET_BTN_CATEGORY_BACKWARD";
     private static final String ACTION_WIDGET_BTN_CATEGORY_FORWARD = "ACTION_WIDGET_BTN_CATEGORY_FORWARD";
-
-    // funktioniert noch nicht richtig
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-
-    }
+    private static String value1 = "0";
+    private static String value2 = "0";
+    private static ConverterCategory category = ConvertiverseApp.getInstance().getCategory("currency");
+    private static Unit unit1 = ConvertiverseApp.getInstance().getUnit("dollar");
+    private static Unit unit2 = ConvertiverseApp.getInstance().getUnit("euro");
+    private static List<? extends Unit> unitList = ConvertiverseApp.getInstance().getUnits("currency");
+    private static int currentValueSelected = 1;
+    private static int currentUnitSelected = 1;
+    private static int categoryPage = 1;
+    private static int unit1Page = 1;
+    private static int unit2Page = 1;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
@@ -142,7 +132,7 @@ public class WidgetReceiver extends AppWidgetProvider {
         intentBtnCategoryBackward.setAction(ACTION_WIDGET_BTN_CATEGORY_BACKWARD);
         intentBtnCategoryForward.setAction(ACTION_WIDGET_BTN_CATEGORY_FORWARD);
 
-        // And this time we are sending a broadcast with getBroadcast
+        // Sending a broadcast with getBroadcast
         PendingIntent pendingIntentCategory = PendingIntent.getBroadcast(context, 0, intentCategory, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntentUnit1 = PendingIntent.getBroadcast(context, 0, intentUnit1, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntentUnit2 = PendingIntent.getBroadcast(context, 0, intentUnit2, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -212,6 +202,11 @@ public class WidgetReceiver extends AppWidgetProvider {
     }
 
     @Override
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+    }
+
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
@@ -221,220 +216,189 @@ public class WidgetReceiver extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         super.onReceive(context, intent);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
+
         if (ACTION_WIDGET_CATEGORY.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
             views.setDisplayedChild(R.id.viewFlipper_input, 2);
             categoryPage = 1;
             fillCategories(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_UNIT_1.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
             views.setDisplayedChild(R.id.viewFlipper_input, 1);
             currentUnitSelected = 1;
-            unit2Page = 2;
+            unit1Page = 1;
             fillUnits(views);
-            //...
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_UNIT_2.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
             views.setDisplayedChild(R.id.viewFlipper_input, 1);
             currentUnitSelected = 2;
             unit2Page = 1;
             fillUnits(views);
-            //...
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_VALUE_1.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
             views.setDisplayedChild(R.id.viewFlipper_input, 0);
             currentValueSelected = 1;
-            //...
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_VALUE_2.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
             views.setDisplayedChild(R.id.viewFlipper_input, 0);
             currentValueSelected = 2;
-            //...
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_0.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(0, views);
+            chooseValue(0, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_1.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(1, views);
+            chooseValue(1, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_2.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(2, views);
+            chooseValue(2, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_3.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(3, views);
+            chooseValue(3, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_4.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(4, views);
+            chooseValue(4, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_5.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(5, views);
+            chooseValue(5, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_6.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(6, views);
+            chooseValue(6, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_7.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(7, views);
+            chooseValue(7, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_8.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(8, views);
+            chooseValue(8, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_9.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValue(9, views);
+            chooseValue(9, views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_DEL.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValueDel(views);
+            chooseValueDel(views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_VALUE_POINT.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseValuePoint(views);
+            chooseValuePoint(views);
             convert(views);
-
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_1.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseUnit(1, views);
-
+            chooseUnit(1, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_2.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseUnit(2, views);
-
+            chooseUnit(2, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_3.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseUnit(3, views);
-
+            chooseUnit(3, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_4.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseUnit(4, views);
-
+            chooseUnit(4, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_5.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseUnit(5, views);
-
+            chooseUnit(5, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_6.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseUnit(6, views);
-
+            chooseUnit(6, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_BACKWARD.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-            views = chooseUnitChangePage(1, views);
 
+            chooseUnitChangePage(1, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_UNIT_FORWARD.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-            views = chooseUnitChangePage(2, views);
 
+            chooseUnitChangePage(2, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_CATEGORY_1.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseCategory(1, views);
-
+            chooseCategory(1, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_CATEGORY_2.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseCategory(2, views);
-
+            chooseCategory(2, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_CATEGORY_3.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseCategory(3, views);
-
+            chooseCategory(3, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_CATEGORY_4.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseCategory(4, views);
-
+            chooseCategory(4, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_CATEGORY_BACKWARD.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseCategoryChangePage(1, views);
-
+            chooseCategoryChangePage(1, views);
             updateWidget(context, views);
+
         } else if (ACTION_WIDGET_BTN_CATEGORY_FORWARD.equals(intent.getAction())) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
-            views = chooseCategoryChangePage(2, views);
-
+            chooseCategoryChangePage(2, views);
             updateWidget(context, views);
+
         }
     }
-
 
 
     private void updateWidget(Context context, RemoteViews views) {
@@ -444,63 +408,62 @@ public class WidgetReceiver extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidget, views);
     }
 
-    private RemoteViews chooseValue(int btnID, RemoteViews views) {
+
+    private void chooseValue(int btnID, RemoteViews views) {
 
         if (currentValueSelected == 1 && value1.length() <= 12) {
 
             if (value1.equals("0")) {
                 value1 = Integer.toString(btnID);
-                views.setTextViewText(R.id.textView_value1, value1);
             } else {
-                value1 = value1 + Integer.toString(btnID);
-                views.setTextViewText(R.id.textView_value1, value1);
+                value1 = value1 + btnID;
             }
+
+            views.setTextViewText(R.id.textView_value1, value1);
 
         } else if (currentValueSelected == 2 && value2.length() <= 12) {
 
             if (value2.equals("0")) {
                 value2 = Integer.toString(btnID);
-                views.setTextViewText(R.id.textView_value2, value2);
             } else {
-                value2 = value2 + Integer.toString(btnID);
-                views.setTextViewText(R.id.textView_value2, value2);
+                value2 = value2 + btnID;
             }
+
+            views.setTextViewText(R.id.textView_value2, value2);
 
         }
 
-        return views;
-
     }
 
-    private RemoteViews chooseValueDel(RemoteViews views) {
+
+    private void chooseValueDel(RemoteViews views) {
 
         if (currentValueSelected == 1) {
 
             if (value1.length() <= 1) {
                 value1 = "0";
-                views.setTextViewText(R.id.textView_value1, value1);
             } else {
                 value1 = value1.substring(0, value1.length() - 1);
-                views.setTextViewText(R.id.textView_value1, value1);
             }
+
+            views.setTextViewText(R.id.textView_value1, value1);
 
         } else {
 
             if (value2.length() <= 1) {
                 value2 = "0";
-                views.setTextViewText(R.id.textView_value2, value2);
             } else {
                 value2 = value2.substring(0, value2.length() - 1);
-                views.setTextViewText(R.id.textView_value2, value2);
             }
+
+            views.setTextViewText(R.id.textView_value2, value2);
 
         }
 
-        return views;
-
     }
 
-    private RemoteViews chooseValuePoint(RemoteViews views) {
+
+    private void chooseValuePoint(RemoteViews views) {
 
         if (currentValueSelected == 1) {
 
@@ -508,7 +471,8 @@ public class WidgetReceiver extends AppWidgetProvider {
                 Double.parseDouble(value1 + ".0");
                 value1 = value1 + ",";
                 views.setTextViewText(R.id.textView_value1, value1);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
         } else {
 
@@ -516,23 +480,24 @@ public class WidgetReceiver extends AppWidgetProvider {
                 Double.parseDouble(value2 + ".0");
                 value2 = value2 + ",";
                 views.setTextViewText(R.id.textView_value2, value2);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
         }
 
-        return views;
-
     }
 
-    private RemoteViews chooseUnit(int btnID, RemoteViews views) {
+
+    private void chooseUnit(int btnID, RemoteViews views) {
 
         if (currentUnitSelected == 1) {
 
             try {
 
-                unit1 = unitList.get((((unit1Page-1) * 6) + btnID) - 1);
+                unit1 = unitList.get((((unit1Page - 1) * 6) + btnID) - 1);
 
-            } catch (Exception ignored) {};
+            } catch (Exception ignored) {
+            }
 
             views.setTextViewText(R.id.textView_unit1, unit1.getDisplayNameShort() + " ▼");
 
@@ -546,7 +511,8 @@ public class WidgetReceiver extends AppWidgetProvider {
 
                 unit2 = unitList.get((unit2Page * btnID) - 1);
 
-            } catch (Exception ignored) {};
+            } catch (Exception ignored) {
+            }
 
             views.setTextViewText(R.id.textView_unit2, unit2.getDisplayNameShort() + " ▼");
 
@@ -556,20 +522,19 @@ public class WidgetReceiver extends AppWidgetProvider {
 
         }
 
-        return views;
-
     }
 
-    private RemoteViews chooseUnitChangePage(int btnID, RemoteViews views) {
+
+    private void chooseUnitChangePage(int btnID, RemoteViews views) {
 
         if (currentUnitSelected == 1) {
             if (btnID == 1) {
-                if (unit1Page-1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit1Page-1) {
+                if (unit1Page - 1 >= 1 && Math.ceil(((float) unitList.size() / 6.0)) >= unit1Page - 1) {
                     unit1Page--;
                     fillUnits(views);
                 }
             } else {
-                if (unit1Page+1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit1Page+1) {
+                if (unit1Page + 1 >= 1 && Math.ceil(((float) unitList.size() / 6.0)) >= unit1Page + 1) {
                     unit1Page++;
                     fillUnits(views);
                 }
@@ -578,12 +543,12 @@ public class WidgetReceiver extends AppWidgetProvider {
         } else {
 
             if (btnID == 1) {
-                if (unit2Page-1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit2Page-1) {
+                if (unit2Page - 1 >= 1 && Math.ceil(((float) unitList.size() / 6.0)) >= unit2Page - 1) {
                     unit2Page--;
                     fillUnits(views);
                 }
             } else {
-                if (unit2Page+1 >= 1 && Math.ceil(((float) unitList.size()/6.0)) >= unit2Page+1) {
+                if (unit2Page + 1 >= 1 && Math.ceil(((float) unitList.size() / 6.0)) >= unit2Page + 1) {
                     unit2Page++;
                     fillUnits(views);
                 }
@@ -591,9 +556,8 @@ public class WidgetReceiver extends AppWidgetProvider {
 
         }
 
-        return views;
-
     }
+
 
     private void fillUnits(RemoteViews views) {
 
@@ -611,50 +575,50 @@ public class WidgetReceiver extends AppWidgetProvider {
             views.setTextViewText(R.id.unit1, "-");
         }
 
-        if ((((unitPage-1)*6)+1) < unitList.size()) {
-            views.setTextViewText(R.id.unit2, shortenStr(unitList.get(((unitPage-1)*6)+1).getDisplayNameShort()));
+        if ((((unitPage - 1) * 6) + 1) < unitList.size()) {
+            views.setTextViewText(R.id.unit2, shortenStr(unitList.get(((unitPage - 1) * 6) + 1).getDisplayNameShort()));
         } else {
             views.setTextViewText(R.id.unit2, "-");
         }
 
-        if ((((unitPage-1)*6)+2) < unitList.size()) {
-            views.setTextViewText(R.id.unit3, shortenStr(unitList.get(((unitPage-1)*6)+2).getDisplayNameShort()));
+        if ((((unitPage - 1) * 6) + 2) < unitList.size()) {
+            views.setTextViewText(R.id.unit3, shortenStr(unitList.get(((unitPage - 1) * 6) + 2).getDisplayNameShort()));
         } else {
             views.setTextViewText(R.id.unit3, "-");
         }
 
-        if ((((unitPage-1)*6)+3) < unitList.size()) {
-            views.setTextViewText(R.id.unit4, shortenStr(unitList.get(((unitPage-1)*6)+3).getDisplayNameShort()));
+        if ((((unitPage - 1) * 6) + 3) < unitList.size()) {
+            views.setTextViewText(R.id.unit4, shortenStr(unitList.get(((unitPage - 1) * 6) + 3).getDisplayNameShort()));
         } else {
             views.setTextViewText(R.id.unit4, "-");
         }
 
-        if ((((unitPage-1)*6)+4) < unitList.size()) {
-            views.setTextViewText(R.id.unit5, shortenStr(unitList.get(((unitPage-1)*6)+4).getDisplayNameShort()));
+        if ((((unitPage - 1) * 6) + 4) < unitList.size()) {
+            views.setTextViewText(R.id.unit5, shortenStr(unitList.get(((unitPage - 1) * 6) + 4).getDisplayNameShort()));
         } else {
             views.setTextViewText(R.id.unit5, "-");
         }
 
-        if ((((unitPage-1)*6)+5) < unitList.size()) {
-            views.setTextViewText(R.id.unit6, shortenStr(unitList.get(((unitPage-1)*6)+5).getDisplayNameShort()));
+        if ((((unitPage - 1) * 6) + 5) < unitList.size()) {
+            views.setTextViewText(R.id.unit6, shortenStr(unitList.get(((unitPage - 1) * 6) + 5).getDisplayNameShort()));
         } else {
             views.setTextViewText(R.id.unit6, "-");
         }
 
     }
 
-    private RemoteViews chooseCategory(int btnID, RemoteViews views) {
+
+    private void chooseCategory(int btnID, RemoteViews views) {
 
         try {
 
-            category = categoriesList.get((((categoryPage-1) * 4) + btnID) - 1);
+            category = categoriesList.get((((categoryPage - 1) * 4) + btnID) - 1);
 
-        } catch (Exception ignored) {};
+        } catch (Exception ignored) {
+        }
 
         views.setTextViewText(R.id.textView_category, category.getDisplayName() + " ▼");
         views.setInt(R.id.category_banner, "setBackgroundColor", Color.parseColor(category.getColorCode()));
-
-        // set units
 
         unitList = ConvertiverseApp.getInstance().getUnits(category.getKey());
         currentValueSelected = 1;
@@ -668,25 +632,24 @@ public class WidgetReceiver extends AppWidgetProvider {
         views.setTextViewText(R.id.textView_unit2, unit2.getDisplayNameShort() + " ▼");
         convert(views);
 
-        return views;
     }
 
-    private RemoteViews chooseCategoryChangePage(int btnID, RemoteViews views) {
+
+    private void chooseCategoryChangePage(int btnID, RemoteViews views) {
         if (btnID == 1) {
-            if (categoryPage-1 >= 1 && Math.ceil(((float) categoriesList.size()/4.0)) >= categoryPage-1) {
+            if (categoryPage - 1 >= 1 && Math.ceil(((float) categoriesList.size() / 4.0)) >= categoryPage - 1) {
                 categoryPage--;
                 fillCategories(views);
             }
         } else {
-            if (categoryPage+1 >= 1 && Math.ceil(((float) categoriesList.size()/4.0)) >= categoryPage+1) {
+            if (categoryPage + 1 >= 1 && Math.ceil(((float) categoriesList.size() / 4.0)) >= categoryPage + 1) {
                 categoryPage++;
                 fillCategories(views);
             }
         }
 
-        return views;
-
     }
+
 
     private void fillCategories(RemoteViews views) {
 
@@ -696,25 +659,26 @@ public class WidgetReceiver extends AppWidgetProvider {
             views.setTextViewText(R.id.category1, "-");
         }
 
-        if ((((categoryPage-1)*4)+1) < categoriesList.size()) {
-            views.setTextViewText(R.id.category2, shortenStr(categoriesList.get(((categoryPage-1)*4)+1).getDisplayName()));
+        if ((((categoryPage - 1) * 4) + 1) < categoriesList.size()) {
+            views.setTextViewText(R.id.category2, shortenStr(categoriesList.get(((categoryPage - 1) * 4) + 1).getDisplayName()));
         } else {
             views.setTextViewText(R.id.category2, "-");
         }
 
-        if ((((categoryPage-1)*4)+2) < categoriesList.size()) {
-            views.setTextViewText(R.id.category3, shortenStr(categoriesList.get(((categoryPage-1)*4)+2).getDisplayName()));
+        if ((((categoryPage - 1) * 4) + 2) < categoriesList.size()) {
+            views.setTextViewText(R.id.category3, shortenStr(categoriesList.get(((categoryPage - 1) * 4) + 2).getDisplayName()));
         } else {
             views.setTextViewText(R.id.category3, "-");
         }
 
-        if ((((categoryPage-1)*4)+3) < categoriesList.size()) {
-            views.setTextViewText(R.id.category4, shortenStr(categoriesList.get(((categoryPage-1)*4)+3).getDisplayName()));
+        if ((((categoryPage - 1) * 4) + 3) < categoriesList.size()) {
+            views.setTextViewText(R.id.category4, shortenStr(categoriesList.get(((categoryPage - 1) * 4) + 3).getDisplayName()));
         } else {
             views.setTextViewText(R.id.category4, "-");
         }
 
     }
+
 
     public String shortenStr(String str) {
 
@@ -725,12 +689,14 @@ public class WidgetReceiver extends AppWidgetProvider {
         return str;
     }
 
+
     public double roundNum(double num) {
 
         BigDecimal bd = new BigDecimal(num).setScale(5, RoundingMode.HALF_UP);
         return bd.doubleValue();
 
     }
+
 
     public String shortenNum(String num) {
 
@@ -741,6 +707,7 @@ public class WidgetReceiver extends AppWidgetProvider {
         return num;
 
     }
+
 
     public void convert(RemoteViews views) {
         if (currentValueSelected == 1) {
