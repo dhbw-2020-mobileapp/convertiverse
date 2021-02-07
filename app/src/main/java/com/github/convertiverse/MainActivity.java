@@ -119,12 +119,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void sortCategories() {
-        categoriesList.sort(new Comparator<ConverterCategory>() {
-            @Override
-            public int compare(final ConverterCategory object1, final ConverterCategory object2) {
-                return object1.getDisplayName().compareTo(object2.getDisplayName());
-            }
-        });
+        categoriesList.sort((object1, object2) -> object1.getDisplayName().compareTo(object2.getDisplayName()));
     }
 
 }

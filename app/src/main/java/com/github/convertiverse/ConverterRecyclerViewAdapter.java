@@ -70,6 +70,8 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
             // Set onCLickListener for opening the converter activity
             viewHolderAddUnit.addUnitBtn.setOnClickListener(v -> {
 
+                Log.i("converter", "unit visibility options opened");
+
                 // Open Visibility settings for the Units
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -142,6 +144,7 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
                         fromValue = Double.parseDouble(views.get(position).unitAmount.getText().toString().replace(',', '.'));
                     } catch (Exception e) {
                         Toast.makeText(context, "Ungültige Eingabe", Toast.LENGTH_SHORT).show();
+                        Log.i("converter", "invalid input");
                     }
 
                     for (int i = 0; i < views.size(); i++) {
@@ -155,7 +158,7 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
                                 toValue = ConvertiverseApp.getInstance().convert(from, fromValue, to);
                             } catch (IllegalStateException ex) {
                                 // When a converter could not be found
-                                Log.e("Converter", "could not find converter for converting " + from + " to " + to);
+                                Log.e("converter", "could not find converter for converting " + from + " to " + to);
                                 toValue = 0;
                             }
                             BigDecimal bd = new BigDecimal(toValue).setScale(5, RoundingMode.HALF_UP);
@@ -170,6 +173,7 @@ public class ConverterRecyclerViewAdapter extends RecyclerView.Adapter {
 
                     // Set history
                     ConvertiverseApp.getInstance().getUserDataManager().addHistoryPoint(unitList.get(position).getKey(), fromValue);
+                    Log.i("converter", "set history point -> unit: " + unitList.get(position).getKey() + " value: " + fromValue);
 
                     return true;
                 }

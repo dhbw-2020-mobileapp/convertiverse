@@ -3,6 +3,7 @@ package com.github.convertiverse;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
             public void onClick(View v) {
                 Intent intent = new Intent(context, ConverterActivity.class);
                 intent.putExtra("key", categoriesList.get(position).getKey());
+                Log.i("converter", categoriesList.get(position).getKey() + "-category opened");
                 context.startActivity(intent);
             }
         });

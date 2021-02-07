@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.github.convertiverse.category.ConverterCategory;
@@ -219,6 +220,8 @@ public class WidgetReceiver extends AppWidgetProvider {
 
         super.onReceive(context, intent);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
+
+        Log.i("widget", "widget receive action: " + intent.getAction());
 
         if (ACTION_WIDGET_CATEGORY.equals(intent.getAction())) {
 
