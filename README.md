@@ -11,3 +11,8 @@ Convertiverse ist eine Android App mit der verschiedene Kategorien (Währung, En
 <img style="margin-left:20px;" src="docs/4.png" width="24%" >
   
 </div>
+
+## Sonstige Informationen
+
+Um die Konvertierung von Währungen so genau wie möglich zu machen, verwenden wir die [exchangerate-api](https://www.exchangerate-api.com/docs/overview) in Verbindung mit der 3rd Party Library [okhttp](https://square.github.io/okhttp/).  
+Um die API zu nutzen gibt es einen Key, der 1000 Anfragen pro Monat zulässt, den wir der Einfachkeit halber mit in das Projekt veröffentlicht haben - eine Registierung ist demnach nicht notwendig.
